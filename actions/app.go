@@ -1,6 +1,8 @@
 package actions
 
 import (
+	"net/http"
+
 	"github.com/gobuffalo/buffalo"
 	"github.com/gobuffalo/envy"
 
@@ -29,6 +31,23 @@ func App() *buffalo.App {
 		auth := app.Group("/auth")
 		auth.GET("/{provider}", buffalo.WrapHandlerFunc(gothic.BeginAuthHandler))
 		auth.GET("/{provider}/callback", AuthCallback)
+		app.GET("/login",
+			func(c buffalo.Context) error {
+				return c.Render(200, r.HTML("login/index.html"))
+			})
+		secure := app.Group("/secure")
+		secure.Use(CheckAuth)
+		secure.GET("/",
+			func(c buffalo.Context) error {
+				return c.Render(200, r.HTML("secure/index.html"))
+			})
+		secure.GET("/logout",
+			func(c buffalo.Context) error {
+				session := c.Session()
+				session.Delete("userID")
+				session.Save()
+				return c.Redirect(http.StatusTemporaryRedirect, "/login")
+			})
 	}
 
 	return app
