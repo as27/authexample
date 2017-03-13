@@ -20,6 +20,7 @@ func App() *buffalo.App {
 		app = buffalo.Automatic(buffalo.Options{
 			Env:         ENV,
 			SessionName: "_authexample_session",
+			Host:        "http://localhost:3000",
 		})
 
 		app.GET("/", HomeHandler)
