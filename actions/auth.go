@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/as27/setenv"
 	"github.com/gobuffalo/buffalo"
 	"github.com/markbates/goth"
 	"github.com/markbates/goth/gothic"
@@ -12,6 +13,7 @@ import (
 
 func init() {
 	gothic.Store = App().SessionStore
+	setenv.File(".env")
 
 	goth.UseProviders(
 		github.New(os.Getenv("GITHUB_KEY"), os.Getenv("GITHUB_SECRET"), fmt.Sprintf("%s%s", App().Host, "/auth/github/callback")),
