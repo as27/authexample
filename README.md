@@ -11,6 +11,14 @@ After cloning this repository you need to run:
 npm install
 ```
 
+To set the env variables the example uses [setenv](https://github.com/as27/setenv).
+
+Install setenv:
+
+```
+go get -u github.com/as27/setenv
+```
+
 Go to GitHub settings and [Register a new OAuth application](https://github.com/settings/applications/new).
 
 Create a file named `.env` in the root directory of this repository. Add following lines to the file:
